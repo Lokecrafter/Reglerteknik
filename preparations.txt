@@ -1,0 +1,65 @@
+What is the cross-over frequency and how can it be found in a Bode
+plot?
+
+• What is the phase-margin and how can it be found in a Bode plot?
+The phase at the crossover frequency is the phase margin. 
+It tells you how close to instability the system is.
+
+• What is the amplitude-margin and how can it be found in a Bode plot?
+The amplitude margin is how much gain K you can give Gc before it becomes instable.
+You can find the amplitude marigin in the Bode-plot by finding which frequency gives the phase = -180 degrees.
+The amplitude marigin is now the negative of the amplitude at said frequency.
+
+• How to derive the errors e0 and e1?
+e0 = 1/(1+Go(0))
+e1 = lim(s->0) 1/(s*Go(s))
+
+• How is the cross-over frequency, bandwidth, and rise time related?
+(cross-over) ωc​ ~ ωB (bandwidth) ∝ 1/Tr (1/Rise time)
+
+• How is the overshoot, phase margin, amplitude margin and stability
+related?
+ϕm​ > 0 and Am > 0 -> Stable system. Increasíng ϕm​ and Am gives a more stable system.
+Mp ∝ 1/ϕm
+
+• Concerning a lead-lag controller:
+– How does the design parameter β affect the phase margin?
+A smaller β gives more phase contribution from the Lead-part.
+
+– How does the design of the lag-part affect the design of the lead-
+controller?
+The lag part lowers the phase a little bit so the lead part needs to raise the phase more to achieve
+the same phase margin.
+
+– Which frequency should the lead-lag controller mainly be designed
+for?
+It should be designed for the desired cross-over frequency.
+
+– How are τD and τI usually defined?
+τD comes from the position of the zero-point for the lead part.
+τI comes from where the pole of the lag part is placed.
+
+– What effect does the parameter γ have and what is the effect of
+setting γ to zero?
+The larger γ is the bigger the gain and the smaller the stationary error gets.
+γ = 0 gives a perfect integrator just as the one found in a PID controller.
+
+• What more information is contained in a state space model than in a
+transfer function?
+A state space model conatins more information like differential equations about the physics of the system. A transfer function
+is just a function that takes an input ang gives an output.
+
+• What is the main difference between input-output feedback and state
+feedback?
+Input-output feedback only regards the output of the model and uses that to control the system.
+State feedback regards all the state model signals to calculate the control signal u.
+
+• Why can it be interesting to plot the sensitivity function? What infor-
+mation can be found in the sensitivity plot?
+------------------------------------------------------------------------------------------
+
+• What is a model error? What problems can a model error cause?
+------------------------------------------------------------------------------------------
+
+• What is the robustness criterion and what does it guarantee?
+------------------------------------------------------------------------------------------
