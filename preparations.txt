@@ -12,7 +12,7 @@ The amplitude marigin is now the negative of the amplitude at said frequency.
 
 • How to derive the errors e0 and e1?
 e0 = 1/(1+Go(0))
-e1 = lim(s->0) 1/(s*Go(s))
+e1 = lim(s->0) 1/(s*Go(s))        sidan 97
 
 • How is the cross-over frequency, bandwidth, and rise time related?
 (cross-over) ωc​ ~ ωB (bandwidth) ∝ 1/Tr (1/Rise time)
@@ -63,3 +63,58 @@ mation can be found in the sensitivity plot?
 
 • What is the robustness criterion and what does it guarantee?
 ------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+7. 
+
+💡 Stationärt fel vid ramp-referens
+
+Reglerfelet e(t) i ett system med enhetsåterkoppling definieras som e(t)=r(t)−y(t). Dess stationära värde e(∞) kan bestämmas med hjälp av slutvärdessatsen (Final Value Theorem) i s-planet:
+e(∞)=s→0lim​sE(s)
+
+För en ramp-referens r(t)=t är R(s)=1/s2. Överföringsfunktionen från R(s) till E(s) är 1+L(s)1​, där L(s)=F(s)G(s).
+E(s)=1+L(s)1​R(s)=1+L(s)1​⋅s21​
+
+Sätt in detta i slutvärdessatsen:
+e(∞)=s→0lim​s⋅1+L(s)1​⋅s21​=s→0lim​s(1+L(s))1​=s→0lim​s+sL(s)1​
+
+Om L(s) inte har en s i nämnaren (dvs. inte har en integrator), blir sL(s)→0 då s→0, och e(∞) divergerar (går mot oändligheten). Detta är fallet för ett system av Typ 0.
+Hastighetskonstant Kv​
+
+Eftersom din process G(s) innehåller en integrator (ett s i nämnaren), och din regulator F(s) inte tillför någon ytterligare integration, har den öppna loopen L(s) exakt en integrator. Systemet är därmed av Typ 1.
+
+För ett Typ 1-system kan felet vid ramp-referens skrivas om med hjälp av hastighetskonstanten (Kv​):
+e(∞)=lims→0​sL(s)1​=Kv​1​
+
+där Kv​ är hastighetskonstanten:
+Kv​=s→0lim​sF(s)G(s)
+Varför felet inte blir noll
+
+Felet e(∞) är inte noll eftersom Kv​ är ett ändligt, begränsat tal, inte oändligt.
+
+    Systemtyp (Typ 1): Att felet vid ramp-referens är ändligt är karaktäristiskt för alla Typ 1-system (system med exakt en integrator i den öppna loopen L(s)). Om du hade velat att felet skulle bli noll, hade du behövt ett Typ 2-system (två integratorer), vilket skulle uppnås genom att tillföra ytterligare en integrator till regulatorn, t.ex. en PI-regulator med en extra integrerande term.
+
+    Lead-Lag-Regulatorns Roll: Din regulator F(s)=K⋅βτD​s+1τD​s+1​⋅τI​s+γτI​s+1​ är konstruerad för att öka Kv​ (genom att välja γ<1, vilket ger en förstärkning 1/γ vid låga frekvenser) för att göra felet e(∞) mycket litet (dvs. < 0.05 enligt Krav 4), men den lägger inte till en ny integrator.
+
+Sammanfattning:
+
+Felet minskas till ett litet, ändligt värde eftersom din lead-lag-regulator ökar hastighetskonstanten Kv​ utan att ändra systemets Typ från 1 till 2. För att få e(∞)=0 vid en ramp-referens skulle Kv​ behöva vara oändlig, vilket skulle kräva en regulator som tillför en extra integrator, t.ex. s1​.
+
+Har du fått ut värdena för Kv,Lead​ från din MATLAB-körning? Vi kan gå vidare med att bestämma γ om du har det.
