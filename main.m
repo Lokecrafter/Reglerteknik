@@ -199,6 +199,8 @@ margin(feedback(F*G, 1));
 margin(F*G);
 xline(desired_crossover_freq)
 legend('G', 'G-closed', 'FG, G-open');
+% subplot(2, 1, 1);
+% xline(desired_crossover_freq)
 
 figure;
 hold on;
@@ -220,6 +222,13 @@ K_v_lead = dcgain(s*F*G); %
 Y = K_v_lead / K_v_desired;
 T_I = 10 / desired_crossover_freq;
 
+phase_increase = 5.7 + desired_phase_margin - (180 + rad2deg(angle(freqresp(G, desired_crossover_freq))));
+B = (1 - sind(phase_increase)) / (1 + sind(phase_increase));
+F = 1 * ((T_D*s + 1)/(B*T_D*s + 1)) * ((T_I*s + 1)/(T_I*s + Y));
+K = 1 / abs(freqresp(F*G, desired_crossover_freq));
+disp(K);
+F = K * ((T_D*s + 1)/(B*T_D*s + 1)) * ((T_I*s + 1)/(T_I*s + Y));
+
 
 % TODO: Compensate for the phase lost by the lag component by adjusting T_D and B
 
@@ -238,7 +247,7 @@ frequencies = logspace(0, 3, 1000);
 figure;
 hold on;
 bodemag(S_prop, S);
-bodemag(S_prop, S);
+% bodemag(S_prop, S);
 yline(1);
 
 disp('We need to evaluate when the function S(jw) is less than 1 (0 dB) to see when disturbances are damped.');
@@ -251,12 +260,16 @@ legend('P-control', 'Improved control');
 delta_G1 = (s + 10)/40;
 delta_G2 = (s + 10)/(4*s + 0.04);
 
+T1 = 1 - 1 / (1 + F*G*(1 + delta_G1));
+T2 = 1 - 1 / (1 + F*G*(1 + delta_G2));
+
 figure;
 hold on;
-bodemag(1 - S);
+bodemag(T1);
+bodemag(T2);
 bodemag(1/delta_G1);
 bodemag(1/delta_G2);
-legend('T(iω)', '1/delta_G1 ', '1/delta_G2 ');
+legend('T1(iω)', 'T2(iω)', '1/delta_G1 ', '1/delta_G2 ');
 
 
 
@@ -280,12 +293,13 @@ disp("Assignment 11. Yes both ranks are 3 which means they are controllable and 
 
 
 
+L = 1;
+L0 = 1;
+K = 5.8;
 
 
 
-
-
-
+lab3robot(G,K,F,A,B,C,L,L0,personal_number);
 
 
 
@@ -307,3 +321,4 @@ disp("Assignment 11. Yes both ranks are 3 which means they are controllable and 
 %     Fysisk Implementering: Detta kräver flera olika sensorer, en för varje tillståndsvariabel i x. Till exempel: för en motor krävs troligen en lägesgivare OCH en hastighetsgivare.
 %     Utmaningen (Estimering): Ofta är inte alla tillståndsvariabler fysiskt mätbara eller det är för dyrt med sensorer. I sådana fall måste man komplettera kontrollagen med en Tillståndsobservatör (t.ex. Luenberger-observatör eller Kalmanfilter) som uppskattar de omätbara tillstånden baserat på u och de mätbara y.
 % Sammanfattning: Implementeringen av State Feedback är komplexare och kräver antingen fler sensorer eller en tillståndsobservatör utöver själva regulatoralgoritmen.
+
